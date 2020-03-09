@@ -1,1 +1,1 @@
-web: gunicorn mytimetracker.wsgi
+web:gunicorn mytimetracker.wsgi

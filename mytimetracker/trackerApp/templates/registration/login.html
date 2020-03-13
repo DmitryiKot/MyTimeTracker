@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title%} login {% endblock%}
+{% block content%}
+{% if form.errors %}
+    bad credentials
+{% endif %}
+
+<form action="{% url "trackerApp:login" %}" method="post">
+{% csrf_token %}
+{{ form.as_p }}
+
+    <input type="hidden" name="next" value="{{ next }}">
+    <p><input type="submit" value="login"></p>
+</form>
+
+{% endblock %}

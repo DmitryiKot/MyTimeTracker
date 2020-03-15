@@ -8,19 +8,14 @@
 <header>
     {% if request.user.is_authenticated %}
         Hi {{ request.user.first_name }}
-    <a href="{% url "trackerApp:logout" %}"> logout </a>
+        <a href="{% url "trackerApp:logout" %}"> logout </a>
     {% else %}
-
-    <form action="{% url "trackerApp:login" %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <input type="hidden" name="next" value="{{ next }}">
-    <p><input type="submit" value="login"></p>
-    </form>
-
         <a href="{% url "trackerApp:login" %}"> login </a>
     {% endif %}
 </header>
+
+{% block content %}
+{% endblock %}
+
 </body>
 </html>

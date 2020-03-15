@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}profile screen {% endblock %}
+{% block content %}
+<p>name: {{ user.first_name|add:user.last_name }}</p>
+{% endblock %}

@@ -9,8 +9,11 @@
     {% if request.user.is_authenticated %}
         Hi {{ request.user.first_name }}
         <a href="{% url "trackerApp:logout" %}"> logout </a>
+        <a href="{% url "trackerApp:profile" %}"> profile </a>
+
     {% else %}
         <a href="{% url "trackerApp:login" %}"> login </a>
+        <a href="{% url "trackerApp:register" %}"> register </a>
     {% endif %}
 </header>
 

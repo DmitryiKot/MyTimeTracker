@@ -9,7 +9,8 @@ from . import models
 
 @login_required
 def view_profile(request):
-    return render(request, 'profile.html', {'user': request.user})
+    return render(request, 'profile.html', {'user': request.user,
+                                            'profile': request.user.profile})
 
 
 def register(request):
@@ -28,3 +29,22 @@ def register(request):
     return render(request,
                   'register.html',
                   {'form': user_form})
+
+
+@login_required
+def edit(request):
+    if request.method == 'POST':
+        user_form = forms.UserEditForm(instance=request.user,
+                                       data=request.POST)
+        profile_form = forms.ProfileEditForm(instance=request.user.profile,
+                                             data=request.POST,
+                                             files=request.FILES)
+        user_form.save()
+        profile_form.save()
+    else:
+        user_form = forms.UserEditForm(instance=request.user)
+        profile_form = forms.ProfileEditForm(instance=request.user.profile)
+    return render(request,
+                  'edit.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form})

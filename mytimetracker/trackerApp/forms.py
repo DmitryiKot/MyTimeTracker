@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from . import models
+
 
 class UserRegistrationForm(forms.ModelForm):
 
@@ -18,3 +20,15 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['password'] != cd['password2']:
             raise forms.ValidationError('bad pass')
         return cd['password2']
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = models.Profile
+        fields = ('about_me', )
+
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')

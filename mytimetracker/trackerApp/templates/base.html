@@ -10,6 +10,7 @@
         Hi {{ request.user.first_name }}
         <a href="{% url "trackerApp:logout" %}"> logout </a>
         <a href="{% url "trackerApp:profile" %}"> profile </a>
+        <a href="{% url "trackerApp:edit" %}"> edit </a>
 
     {% else %}
         <a href="{% url "trackerApp:login" %}"> login </a>

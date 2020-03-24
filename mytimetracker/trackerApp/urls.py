@@ -16,4 +16,10 @@ urlpatterns = [
          name='register'),
     path('edit/', my_views.edit,
          name='edit'),
+    path('', my_views.TaskListView.as_view(), name='all_tasks'),
+    path('<int:year>/<int:month>/<int:day>/<slug:slug>/',
+         my_views.high_level_task_details,
+         name='high_level_task_details'),
+    path('create/', my_views.create_form,
+         name='create_form'),
 ]

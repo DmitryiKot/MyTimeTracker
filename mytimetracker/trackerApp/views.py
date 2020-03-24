@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 
 from . import forms
 from . import models
@@ -48,3 +51,57 @@ def edit(request):
                   'edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+
+
+def all_tasks(request):
+    task_list = models.HighLevelTask.objects.all()
+
+    return render(request,
+                  'highLevelTask/list.html',
+                  {"tasks": task_list})
+
+
+class TaskListView(LoginRequiredMixin, ListView):
+    queryset = models.HighLevelTask.objects.all()
+    context_object_name = 'tasks'
+    template_name = 'highLevelTask/list.html'
+
+
+@login_required
+def high_level_task_details(request, year, month, day, slug):
+    task = get_object_or_404(models.HighLevelTask,
+                             publish__year=year,
+                             publish__month=month,
+                             publish__day=day,
+                             slug=slug)
+    # new_comment = None
+    #
+    # if request.method == 'POST':
+    #     comment_form = forms.CommentForm(request.POST)
+    #     if comment_form.is_valid():
+    #         new_comment = comment_form.save(commit=False)
+    #         new_comment.material = material
+    #         new_comment.save()
+    #     return redirect(material)
+    # else:
+    #     comment_form = forms.CommentForm()
+
+    return render(request,
+                  'highLevelTask/detail.html',
+                  {'task': task})
+
+
+def create_form(request):
+    if request.method == 'POST':
+        task_form = forms.HighLevelTaskForm(request.POST)
+        if task_form.is_valid():
+            new_task = task_form.save(commit=False)
+            new_task.author = User.objects.first()
+            new_task.slug = new_task.title.replace(" ", "-")
+            new_task.save()
+            return render(request,
+                          'highLevelTask/detail.html',
+                          {'task': new_task})
+    else:
+        task_form = forms.HighLevelTaskForm()
+    return render(request, "highLevelTask/create_task.html", {'form': task_form})

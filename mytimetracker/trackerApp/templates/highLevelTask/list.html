@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Task list{% endblock %}
+
+{% block content %}
+    <h1>My tasks</h1>
+    {% for task in tasks %}
+        <h2>
+            <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+        </h2>
+        <p>
+            Published {{ task.publish }} by {{ task.author }}
+        </p>
+        <p>
+            {{ task.body|linebreaks|truncatewords_html:30 }}
+        </p>
+    {% endfor %}
+    <a href="{% url "trackerApp:create_form" %}">Create</a>
+{% endblock %}

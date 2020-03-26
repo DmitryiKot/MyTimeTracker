@@ -37,4 +37,10 @@ class UserEditForm(forms.ModelForm):
 class HighLevelTaskForm(forms.ModelForm):
     class Meta:
         model = models.HighLevelTask
-        fields = ('title', 'body', 'status')
+        fields = ('title', 'finish_date')
+
+
+class LowLevelTaskForm(forms.ModelForm):
+    class Meta:
+        model = models.LowLevelTask
+        fields = ('title', 'body', 'status', 'high_level_task')

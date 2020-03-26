@@ -22,4 +22,10 @@ urlpatterns = [
          name='high_level_task_details'),
     path('create/', my_views.create_form,
          name='create_form'),
+    path('tasks/', my_views.LowTaskListView.as_view(), name='all_tasks_low'),
+    path('<int:month>/<int:day>/<int:year>/<slug:slug>/',
+         my_views.low_level_task_details,
+         name='low_level_task_details'),
+    path('create_low/', my_views.create_form_low,
+         name='create_form_low'),
 ]

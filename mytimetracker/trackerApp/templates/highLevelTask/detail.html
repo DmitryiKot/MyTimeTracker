@@ -8,8 +8,12 @@
     <p>
         Published {{ task.publish }} by {{ task.author }}
     </p>
+
     <p>
-        {{ task.body|linebreaks }}
+        {{timer}} | {{task.task_type}} | {{task.finish_date}}
     </p>
+
+<a href="{% url "trackerApp:all_tasks_low" %}">Low level list</a>
+<a href="{% url "trackerApp:create_form_low" %}">Create</a>
 
 {% endblock %}

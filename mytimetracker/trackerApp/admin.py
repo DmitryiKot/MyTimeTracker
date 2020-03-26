@@ -6,9 +6,20 @@ from . import models
 
 @admin.register(models.HighLevelTask)
 class MaterialAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'task_type', 'status', 'publish')
-    list_filter = ('status', 'created', 'publish', 'task_type')
-    search_fields = ('title', 'body')
+    list_display = ('title', 'slug', 'task_type', 'publish')
+    list_filter = ('created', 'publish', 'task_type')
+    search_fields = ('title', )
     prepopulated_fields = {'slug': ('title', )}
     date_hierarchy = 'publish'
-    ordering = ('status', 'publish')
+    ordering = ('publish', )
+
+
+@admin.register(models.LowLevelTask)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug', 'status', 'publish')
+    list_filter = ('created', 'publish', 'status')
+    search_fields = ('title', )
+    prepopulated_fields = {'slug': ('title', )}
+    date_hierarchy = 'publish'
+    ordering = ('publish', )
+

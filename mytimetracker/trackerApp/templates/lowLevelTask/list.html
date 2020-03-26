@@ -3,15 +3,16 @@
 {% block title %}Task list{% endblock %}
 
 {% block content %}
+<a href="{% url "trackerApp:all_tasks" %}">All tasks high</a>
     <h1>My tasks</h1>
     {% for task in tasks %}
         <h2>
             <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
         </h2>
         <p>
-            Published {{ task.publish }} by {{ task.author }}
+            Published {{ task.publish }}
         </p>
 
     {% endfor %}
-    <a href="{% url "trackerApp:create_form" %}">Create</a>
+    <a href="{% url "trackerApp:create_form_low" %}">Create</a>
 {% endblock %}

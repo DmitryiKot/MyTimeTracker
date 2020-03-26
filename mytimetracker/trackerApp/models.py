@@ -21,6 +21,43 @@ class HighLevelTask(models.Model):
         ('inactive', 'Inactive'),
     )
 
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250,
+                            unique_for_date='publish')
+    finish_date = models.DateTimeField()
+    publish = models.DateTimeField(default=timezone.now)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    task_type = models.CharField(max_length=20,
+                                 choices=TASK_TYPE,
+                                 default='active')
+
+    author = models.ForeignKey(User,
+                               on_delete=models.CASCADE,
+                               related_name='user_task')
+    objects = models.Manager()
+
+    def get_year(self):
+        return self.finish_date.year
+
+    def get_month(self):
+        return self.finish_date.month
+
+    def get_day(self):
+        return self.finish_date.day
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('trackerApp:high_level_task_details',
+                       args=[self.publish.year,
+                             self.publish.month,
+                             self.publish.day,
+                             self.slug])
+
+
+class LowLevelTask(models.Model):
     STATUS_TASK = (
         ('open', 'Open'),
         ('close', 'Closed'),
@@ -31,29 +68,25 @@ class HighLevelTask(models.Model):
     slug = models.SlugField(max_length=250,
                             unique_for_date='publish')
 
+    high_level_task = models.ForeignKey(HighLevelTask,
+                                        on_delete=models.CASCADE)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    task_type = models.CharField(max_length=20,
-                                 choices=TASK_TYPE,
-                                 default='active')
 
     status = models.CharField(max_length=20,
                               choices=STATUS_TASK,
                               default='open')
 
-    author = models.ForeignKey(User,
-                               on_delete=models.CASCADE,
-                               related_name='user_task')
     objects = models.Manager()
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('trackerApp:high_level_task_details',
-                       args=[self.publish.year,
-                             self.publish.month,
+        return reverse('trackerApp:low_level_task_details',
+                       args=[self.publish.month,
                              self.publish.day,
+                             self.publish.year,
                              self.slug])

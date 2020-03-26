@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}task title{% endblock %}
+
+{% block content %}
+<a href="{% url "trackerApp:all_tasks_low" %}">All tasks</a>
+    <h1>{{ task.title }}</h1>
+    <p>
+        Published {{ task.publish }}
+
+    </p>
+
+
+{% endblock %}

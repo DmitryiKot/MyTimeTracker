@@ -23,3 +23,9 @@ class TaskAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish'
     ordering = ('publish', )
 
+
+@admin.register(models.Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'body', 'created',)
+    list_filter = ('created',)
+    search_fields = ('name', 'body')

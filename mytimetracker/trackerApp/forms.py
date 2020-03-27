@@ -44,3 +44,9 @@ class LowLevelTaskForm(forms.ModelForm):
     class Meta:
         model = models.LowLevelTask
         fields = ('title', 'body', 'status', 'high_level_task')
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = models.Comment
+        fields = ('name', 'body')

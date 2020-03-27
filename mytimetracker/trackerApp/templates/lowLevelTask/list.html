@@ -10,7 +10,10 @@
             <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
         </h2>
         <p>
-            Published {{ task.publish }}
+            Published {{ task.publish }} | {{task.status}} | {{task.high_level_task.author}}
+        </p>
+        <p>
+            {{task.body}}
         </p>
 
     {% endfor %}

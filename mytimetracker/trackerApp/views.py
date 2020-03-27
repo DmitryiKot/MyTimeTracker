@@ -88,18 +88,22 @@ def high_level_task_details(request, year, month, day, slug):
                              publish__year=year,
                              publish__month=month,
                              publish__day=day,
-                             slug=slug,)
-    # new_comment = None
-    #
-    # if request.method == 'POST':
-    #     comment_form = forms.CommentForm(request.POST)
-    #     if comment_form.is_valid():
-    #         new_comment = comment_form.save(commit=False)
-    #         new_comment.material = material
-    #         new_comment.save()
-    #     return redirect(material)
-    # else:
-    #     comment_form = forms.CommentForm()
+                             slug=slug)
+
+    tasks = models.LowLevelTask.objects.all()
+    tasks = tasks.filter(high_level_task_id=task.id)
+
+    new_comment = None
+
+    if request.method == 'POST':
+        comment_form = forms.CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.task = task
+            new_comment.save()
+        return redirect(task)
+    else:
+        comment_form = forms.CommentForm()
 
     finish_date_year = task.get_year()
     finish_date_month = task.get_month()
@@ -116,7 +120,10 @@ def high_level_task_details(request, year, month, day, slug):
     return render(request,
                   'highLevelTask/detail.html',
                   {'task': task,
-                   'timer': context})
+                   'timer': context,
+                   'new_comment': new_comment,
+                   'form': comment_form,
+                   'tasks': tasks})
 
 
 @login_required

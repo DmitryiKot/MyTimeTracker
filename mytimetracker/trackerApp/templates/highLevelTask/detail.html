@@ -12,6 +12,34 @@
     <p>
         {{timer}} | {{task.task_type}} | {{task.finish_date}}
     </p>
+    <p>
+        {% for task in tasks %}
+            <h3>Task #<a href="{{ task.get_absolute_url }}">{{ task.title }}</a></h3>
+        {% empty %}
+            <p>Empty</p>
+        {% endfor %}
+    </p>
+
+    {% with task.comments.count as total_comments %}
+        <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
+    {% endwith %}
+
+    {% for comment in task.comments.all %}
+        <p>Comment #{{ forloop.counter }} by {{comment.name}} {{comment.created}}</p>
+        <p> {{ comment.body|linebreaks }}</p>
+    {% empty %}
+        <p>There were no comments</p>
+    {% endfor %}
+
+    {% if new_comment %}
+        <p>comment was created</p>
+    {% else %}
+        <form action="." method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Box in comments"></p>
+        </form>
+    {% endif %}
 
 <a href="{% url "trackerApp:all_tasks_low" %}">Low level list</a>
 <a href="{% url "trackerApp:create_form_low" %}">Create</a>

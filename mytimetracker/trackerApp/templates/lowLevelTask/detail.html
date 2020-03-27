@@ -6,7 +6,7 @@
 <a href="{% url "trackerApp:all_tasks_low" %}">All tasks</a>
     <h1>{{ task.title }}</h1>
     <p>
-        Published {{ task.publish }}
+        Published {{ task.publish }} | {{task.high_level_task}}
 
     </p>
 

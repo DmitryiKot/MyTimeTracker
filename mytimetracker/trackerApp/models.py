@@ -69,7 +69,8 @@ class LowLevelTask(models.Model):
                             unique_for_date='publish')
 
     high_level_task = models.ForeignKey(HighLevelTask,
-                                        on_delete=models.CASCADE)
+                                        on_delete=models.CASCADE,
+                                        related_name='high_task')
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
@@ -90,3 +91,12 @@ class LowLevelTask(models.Model):
                              self.publish.day,
                              self.publish.year,
                              self.slug])
+
+
+class Comment(models.Model):
+    task = models.ForeignKey(HighLevelTask,
+                             on_delete=models.CASCADE,
+                             related_name='comments')
+    name = models.CharField(max_length=80)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)

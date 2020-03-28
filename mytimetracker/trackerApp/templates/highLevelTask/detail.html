@@ -8,10 +8,12 @@
     <p>
         Published {{ task.publish }} by {{ task.author }}
     </p>
+    <div id="timer">
+        <p>
+            {{timer}} | {{task.task_type}} | {{task.finish_date}}
+        </p>
+    </div>
 
-    <p>
-        {{timer}} | {{task.task_type}} | {{task.finish_date}}
-    </p>
     <p>
         {% for task in tasks %}
             <h3>Task #<a href="{{ task.get_absolute_url }}">{{ task.title }}</a></h3>
@@ -43,5 +45,6 @@
 
 <a href="{% url "trackerApp:all_tasks_low" %}">Low level list</a>
 <a href="{% url "trackerApp:create_form_low" %}">Create</a>
+<a href="{% url "trackerApp:edit_high_task" pk=task.pk %}">Edit</a>
 
 {% endblock %}

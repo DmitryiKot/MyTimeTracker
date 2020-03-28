@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
-from datetime import datetime, timedelta
 
 from . import forms
 from . import models
+
 
 # Create your views here.
 
@@ -54,12 +56,12 @@ def edit(request):
                    'profile_form': profile_form})
 
 
-def all_tasks(request):
-    task_list = models.HighLevelTask.objects.all()
-
-    return render(request,
-                  'highLevelTask/list.html',
-                  {"tasks": task_list})
+# def all_tasks(request):
+#     task_list = models.HighLevelTask.objects.all()
+#
+#     return render(request,
+#                   'highLevelTask/list.html',
+#                   {"tasks": task_list})
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -68,12 +70,12 @@ class TaskListView(LoginRequiredMixin, ListView):
     template_name = 'highLevelTask/list.html'
 
 
-def all_tasks_low(request):
-    task_list = models.LowLevelTask.objects.all()
-
-    return render(request,
-                  'lowLevelTask/list.html',
-                  {"tasks": task_list})
+# def all_tasks_low(request):
+#     task_list = models.LowLevelTask.objects.all()
+#
+#     return render(request,
+#                   'lowLevelTask/list.html',
+#                   {"tasks": task_list})
 
 
 class LowTaskListView(LoginRequiredMixin, ListView):
@@ -159,7 +161,6 @@ def create_form_low(request):
         task_form = forms.LowLevelTaskForm(request.POST)
         if task_form.is_valid():
             new_task = task_form.save(commit=False)
-            # new_task.author = User.objects.first()
             new_task.slug = new_task.title.replace(" ", "-")
             new_task.save()
             return render(request,
@@ -168,3 +169,23 @@ def create_form_low(request):
     else:
         task_form = forms.LowLevelTaskForm()
     return render(request, "lowLevelTask/create_task.html", {'form': task_form})
+
+
+def edit_task_high(request, pk):
+    task = get_object_or_404(models.HighLevelTask, pk=pk)
+    if request.method == 'POST':
+        task_form = forms.HighLevelTaskForm(request.POST, instance=task)
+        if task_form.is_valid():
+            task = task_form.save(commit=False)
+            task.author = User.objects.first()
+            task.slug = task.title.replace(" ", "-")
+            task.save()
+
+            return render(request,
+                          'highLevelTask/detail.html',
+                          {'task': task})
+    else:
+        task_form = forms.HighLevelTaskForm(instance=task)
+    return render(request,
+                  'edit_task.html',
+                  {'task_form': task_form})

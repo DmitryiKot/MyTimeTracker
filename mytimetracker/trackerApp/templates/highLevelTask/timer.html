@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form action="{{ task.get_absolute_url }}" method="post">
+    <div id="timer">
+        {{timer}} | {{task.task_type}} | {{task.finish_date}}
+    </div>
+</form>
+
+{% endblock %}

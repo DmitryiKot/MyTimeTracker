@@ -56,26 +56,10 @@ def edit(request):
                    'profile_form': profile_form})
 
 
-# def all_tasks(request):
-#     task_list = models.HighLevelTask.objects.all()
-#
-#     return render(request,
-#                   'highLevelTask/list.html',
-#                   {"tasks": task_list})
-
-
 class TaskListView(LoginRequiredMixin, ListView):
     queryset = models.HighLevelTask.objects.all()
     context_object_name = 'tasks'
     template_name = 'highLevelTask/list.html'
-
-
-# def all_tasks_low(request):
-#     task_list = models.LowLevelTask.objects.all()
-#
-#     return render(request,
-#                   'lowLevelTask/list.html',
-#                   {"tasks": task_list})
 
 
 class LowTaskListView(LoginRequiredMixin, ListView):
@@ -107,6 +91,21 @@ def high_level_task_details(request, year, month, day, slug):
     else:
         comment_form = forms.CommentForm()
 
+    return render(request,
+                  'highLevelTask/detail.html',
+                  {'task': task,
+                   'new_comment': new_comment,
+                   'form': comment_form,
+                   'tasks': tasks})
+
+
+def timer(request, year, month, day, slug):
+    task = get_object_or_404(models.HighLevelTask,
+                             publish__year=year,
+                             publish__month=month,
+                             publish__day=day,
+                             slug=slug)
+
     finish_date_year = task.get_year()
     finish_date_month = task.get_month()
     finish_date_day = task.get_day()
@@ -116,16 +115,15 @@ def high_level_task_details(request, year, month, day, slug):
     diff_format = str(diff).split(".")
     if diff_format[0] == "0:00:00" or "-" in diff_format[0]:
         context = now_format[0]
+        task.task_type = 'inactive'
     else:
         context = diff_format[0]
+        task.task_type = 'active'
 
     return render(request,
-                  'highLevelTask/detail.html',
-                  {'task': task,
-                   'timer': context,
-                   'new_comment': new_comment,
-                   'form': comment_form,
-                   'tasks': tasks})
+                  'highLevelTask/timer.html',
+                  {'timer': context,
+                   'task': task})
 
 
 @login_required

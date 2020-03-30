@@ -6,6 +6,16 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
+    <script>
+            setInterval(function() {
+                $.get('','', (data) => {
+                    let content = $(jQuery.parseHTML(data));
+                    let timer = content.children('div');
+                    $('#timer').replaceWith(timer);
+                }, 'html');
+
+            }, 10000);
+    </script>
 
 </head>
 <body>

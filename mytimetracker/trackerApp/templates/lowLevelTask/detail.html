@@ -3,7 +3,7 @@
 {% block title %}task title{% endblock %}
 
 {% block content %}
-<a href="{% url "trackerApp:all_tasks_low" %}">All tasks</a>
+<a href="{% url "trackerApp:all_tasks" %}">All tasks</a>
     <h1>{{ task.title }}</h1>
     <p>
         Published {{ task.publish }} | {{task.high_level_task}}

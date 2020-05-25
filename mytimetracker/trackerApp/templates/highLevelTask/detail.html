@@ -11,7 +11,6 @@
 
     <div id="timer">
         <p>
-            {{ context }}
 
         </p>
     </div>
@@ -52,7 +51,7 @@
     {% endif %}
 
 <!--<a href="{% url "trackerApp:all_tasks_low" %}">Low level list</a>-->
-<a href="{% url "trackerApp:create_form_low" %}">Create</a>
-<a href="{% url "trackerApp:edit_high_task" pk=task.pk %}">Edit</a>
+<a href="{% url "trackerApp:create_form_low" %}">Create low level task</a>
+<a href="{% url "trackerApp:edit_high_task" pk=task.pk %}">Edit task</a>
 
 {% endblock %}

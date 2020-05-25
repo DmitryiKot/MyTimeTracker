@@ -4,4 +4,6 @@
 <p>name: {{ user.first_name }} {{ user.last_name }}</p>
 <p>email: {{ user.email }}</p>
 <p>about me: {{ profile.about_me }}</p>
+
+<a href="{% url "trackerApp:all_tasks" %}">All tasks</a>
 {% endblock %}

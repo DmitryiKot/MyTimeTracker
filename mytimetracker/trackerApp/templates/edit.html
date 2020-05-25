@@ -7,4 +7,6 @@
     {% csrf_token %}
 <p><input type="submit" value="Save changes"></p>
 </form>
+
+<a href="{% url "trackerApp:all_tasks" %}">All tasks</a>
 {% endblock %}
